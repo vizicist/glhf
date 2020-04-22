@@ -113,6 +113,18 @@ func NewShader(vertexFmt, uniformFmt AttrFormat, vertexShader, fragmentShader st
 	return shader, nil
 }
 
+// UniformIndex returns the index position of the named uniform.
+// This is the index within the uniformFmt/Attr array
+// as well as the index within the uniformLoc array.
+func (s *Shader) UniformIndex(name string) int {
+	for i, a := range s.uniformFmt {
+		if a.Name == name {
+			return i
+		}
+	}
+	return -1
+}
+
 func (s *Shader) delete() {
 	mainthread.CallNonBlock(func() {
 		gl.DeleteProgram(s.program.obj)
